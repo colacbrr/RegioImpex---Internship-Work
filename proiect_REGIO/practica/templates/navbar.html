@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Navigation</title>
+</head>
+<body>
+    {% include 'theme.html' %}
+    <div class="header">
+        <nav class="navbar">
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="welcome-message">Welcome, {{ user.username }}</div>
+        </nav>  
+    </div>
+    <div class="vertical-menu">
+        <ul>
+            <li>
+                <a href="#"><i class="fas fa-home"></i><span>Home</span></a>
+
+            </li>
+            <li>
+                <a href="/add/"><i class="fas fa-plus-square"></i><span>Add</span></a>
+                <ul class="submenu">
+                    <li><a href="#">Subitem 1</a></li>
+                    <li><a href="#">Subitem 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/lista-cisterne/"><i class="fas fa-list"></i><span>Lista Cisterne</span></a>
+            </li>
+            <li>
+                <a href="/profil/"><i class="fas fa-user"></i><span>Profil</span></a>
+            </li>
+            <li>
+                <a href="/setari/"><i class="fas fa-cog"></i><span>Setari</span></a>
+            </li>
+            <li id="logout">
+                <a href="#"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+            </li>
+        </ul>
+    </div>
+    <script src="{% static 'js/navbar.js' %}"></script>
+</body>
+</html>

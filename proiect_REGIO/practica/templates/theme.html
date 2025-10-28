@@ -1,0 +1,26 @@
+<script>
+    // Function to apply the theme
+    function applyTheme(theme) {
+        if (theme === "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+    }
+
+    // Document ready function
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the theme from localStorage
+        const theme = localStorage.getItem("theme") || "light";
+        applyTheme(theme);
+
+        // Toggle theme button
+        const themeToggle = document.querySelector(".theme-toggle");
+        themeToggle.onclick = () => {
+            const currentTheme = document.body.classList.contains("dark") ? "dark" : "light";
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            applyTheme(newTheme);
+            localStorage.setItem("theme", newTheme);
+        };
+    });
+</script>

@@ -1,0 +1,94 @@
+  {% comment %} {{ form.as_p }}  <!-- paragraph (<p>) --> {% endcomment %}
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/formular.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  
+      
+  </head>
+  <body>
+      {% include "navbar.html" %} 
+  
+      <div class="form-container"> <!-- container for centering the form -->
+          <h2>Bypass <span>Form</span></h2>
+  
+          <form method="post">
+              {% csrf_token %}
+              
+              {% comment %} { form.field_name }}, Django automatically generates IDs for each field  {% endcomment %}
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.motiv.id_for_label }}">Motiv:</label>
+                  <span class="input-group-text"><i class="fas fa-pencil-alt"></i></span>
+                  {{ form.motiv }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.sofer.id_for_label }}">Sofer:</label>
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  {{ form.sofer }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.transportator.id_for_label }}" > Transportator:</label>
+                  <span class="input-group-text"><i class="fas fa-truck"></i></span>                
+                  {{ form.transportator }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.cisterna.id_for_label }}">Cisterna:</label>
+                  <span class="input-group-text"><i class="fas fa-oil-can"></i></span>
+                  {{ form.cisterna }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.tip.id_for_label }}">Tip:</label>
+                  <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                  {{ form.tip }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.tip_statie.id_for_label }}">Tip Statie:</label>
+                  <span class="input-group-text"><i class="fas fa-gas-pump"></i></span>
+                  {{ form.tip_statie }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.utilizator.id_for_label }}">Utilizator:</label>
+                  <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                  {{ form.utilizator }}
+              </p>
+              </div>
+  
+              <div class="form-group">
+              <p>
+                  <label for="{{ form.observatii.id_for_label }}">Observatii:</label>
+                  <span class="input-group-text"><i class="fas fa-comment-alt"></i></span>
+                  {{ form.observatii }}
+              </p>
+              </div>
+              
+              <button type="submit" class="btn btn-submit">Submit</button>
+          </form>
+      </div>
+  </body>
+  </html>
+  
