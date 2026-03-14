@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | Regio Support Desk{% endblock %}
+
+{% block content %}
+<section class="panel panel-narrow">
+    <p class="eyebrow">Error 404</p>
+    <h1>Page not found</h1>
+    <p class="panel-copy">
+        The requested page does not exist or is no longer available.
+    </p>
+    <div class="hero-actions">
+        <a class="button button-primary" href="{% url 'dashboard' %}">Back to dashboard</a>
+    </div>
+</section>
+{% endblock %}

@@ -27,6 +27,10 @@
             <span>Staff access</span>
             <strong>{% if request.user.is_staff %}Yes{% else %}No{% endif %}</strong>
         </div>
+        <div>
+            <span>Administrative access</span>
+            <strong>{% if is_admin %}Yes{% else %}No{% endif %}</strong>
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -142,11 +142,22 @@ textarea:focus {
 }
 
 .hero-actions,
-.form-actions {
+.form-actions,
+.filter-bar,
+.pagination {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   margin-top: 1.5rem;
+}
+
+.filter-bar {
+  align-items: center;
+  margin: 1rem 0 1.25rem;
+}
+
+.filter-bar input {
+  flex: 1 1 280px;
 }
 
 .card-grid {
@@ -303,6 +314,11 @@ textarea:focus {
 
 .data-table th {
   background: #f7f1e8;
+}
+
+.pagination {
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media (max-width: 960px) {

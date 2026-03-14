@@ -1,29 +1,37 @@
 # regio-updated
 
-Cleaned and documented Django web application for managing bypass tickets and
-operator/admin workflows in a transport-support context.
+`regio-updated` is a cleaned Django support-desk application for managing
+bypass tickets, operator accounts, and internal workflow records in a
+transport-support setting.
 
-This public version focuses on the actual web project and removes unrelated
-personal files, committed virtual environments, runtime database files, and
-other non-project artifacts.
+This public-ready version removes unrelated local files and reorganizes the
+project into a normal Django repository that is easier to understand, run, and
+extend.
 
-## Project Overview
+## Features
 
-The application provides:
-
-- authentication for operators and administrators
-- a bypass ticket form for recording operational cases
-- a dashboard for navigating the workflow
-- profile and user-management pages
-- Django admin for managing reference data
+- authenticated dashboard for operators and administrators
+- bypass creation flow with validation for carrier, driver, and tanker
+- searchable bypass records view with CSV export
+- admin-only user management
+- Django admin for reference data and operational review
+- responsive templates with a cleaner internal web UI
 
 ## Stack
 
 - Python
 - Django
 - SQLite for local development
-- HTML templates
-- custom CSS and JavaScript
+- HTML templates, custom CSS, and small progressive JavaScript
+
+## Architecture
+
+- `config/` Django project configuration
+- `pages/` dashboard and shared error pages
+- `app/` bypass models, forms, views, admin, and tests
+- `users/` authentication, profile, and operator management
+- `templates/` server-rendered UI
+- `static/` shared styles and scripts
 
 ## Local Setup
 
@@ -31,27 +39,54 @@ The application provides:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
 
+## Development Commands
+
+```bash
+make check
+make test
+make lint
+make run
+```
+
 ## Main Routes
 
 - `/` dashboard
-- `/bypass/` bypass form
+- `/bypass/` create a bypass record
+- `/bypass/records/` search and review bypass history
+- `/bypass/export/` export records as CSV
 - `/login/` login
-- `/logout/` logout
-- `/profile/` profile
-- `/users/` user list
-- `/users/add/` add user
+- `/profile/` account profile
+- `/users/` admin-only user list
 - `/admin/` Django admin
 
-## Public Cleanup Applied
+## Production Notes
 
-- removed unrelated personal notes and files
-- removed committed `venv/`
-- removed committed `db.sqlite3`
-- removed Python cache files and backup files
-- simplified project structure to a normal Django repo layout
-- improved views, forms, navigation, and documentation
+- configure settings from environment variables
+- use a production database instead of local SQLite
+- set secure cookie and SSL settings through env vars
+- run `python manage.py collectstatic`
+- place the app behind a real WSGI server and reverse proxy
+
+More detail is in [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## Security And Privacy
+
+- no sample production credentials are stored in the repo
+- runtime database files and local environments are ignored
+- user-management views are restricted to administrators
+- the public repo is intentionally documentation-first and excludes personal
+  local artifacts from the original private workspace
+
+## Repository Cleanup Applied
+
+- removed unrelated personal directories and notes
+- removed committed virtual environments and local database files
+- removed cache files and backup artifacts
+- simplified routing, forms, tests, and templates
+- added CI, linting, deployment notes, and public-facing documentation

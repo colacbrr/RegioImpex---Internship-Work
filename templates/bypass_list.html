@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Bypass Records | Regio Support Desk{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Operations records</p>
+            <h1>Bypass history</h1>
+        </div>
+        <div class="hero-actions">
+            <a href="{% url 'bypass' %}" class="button button-primary">New entry</a>
+            <a href="{% url 'bypass_export' %}" class="button button-secondary">Export CSV</a>
+        </div>
+    </div>
+
+    <form method="get" class="filter-bar">
+        <input type="search" name="q" value="{{ query }}" placeholder="Search by driver, carrier, tanker, reason, notes, or user">
+        <button type="submit" class="button button-secondary">Search</button>
+    </form>
+
+    <p class="field-help">{{ result_count }} record{{ result_count|pluralize }} found.</p>
+
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Reason</th>
+                    <th>Driver</th>
+                    <th>Transport company</th>
+                    <th>Tanker</th>
+                    <th>Created by</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in page_obj %}
+                    <tr>
+                        <td>{{ entry.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>{{ entry.motiv }}</td>
+                        <td>{{ entry.sofer }}</td>
+                        <td>{{ entry.transportator }}</td>
+                        <td>{{ entry.cisterna }}</td>
+                        <td>{{ entry.utilizator.username }}</td>
+                        <td>{{ entry.observatii }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">No bypass entries match the current filter.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="pagination">
+        {% if page_obj.has_previous %}
+            <a class="button button-secondary" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+            <a class="button button-secondary" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </nav>
+    {% endif %}
+</section>
+{% endblock %}

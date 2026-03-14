@@ -14,10 +14,18 @@
 
     <form method="post" class="grid-form">
         {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="field-group field-group--full">
+                <div class="field-error">{{ form.non_field_errors }}</div>
+            </div>
+        {% endif %}
         {% for field in form %}
             <div class="field-group{% if field.name == 'observatii' %} field-group--full{% endif %}">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
+                {% if field.help_text %}
+                    <small class="field-help">{{ field.help_text }}</small>
+                {% endif %}
                 {% if field.errors %}
                     <div class="field-error">{{ field.errors|striptags }}</div>
                 {% endif %}

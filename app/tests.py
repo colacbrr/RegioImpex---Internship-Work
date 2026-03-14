@@ -2,7 +2,15 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Bypass, Cisterne, MotiveBypass, Soferi, TipStatie, Tipuri, Transportatori
+from .models import (
+    Bypass,
+    Cisterne,
+    MotiveBypass,
+    Soferi,
+    TipStatie,
+    Tipuri,
+    Transportatori,
+)
 
 
 class BypassViewTests(TestCase):
@@ -12,7 +20,10 @@ class BypassViewTests(TestCase):
             password="test-pass-123",
         )
         self.transportator = Transportatori.objects.create(nume="TransCo")
-        self.sofer = Soferi.objects.create(nume="Driver One", companie=self.transportator)
+        self.sofer = Soferi.objects.create(
+            nume="Driver One",
+            companie=self.transportator,
+        )
         self.cisterna = Cisterne.objects.create(
             nr_cisterna="B-100-AAA",
             companie=self.transportator,
@@ -44,3 +55,61 @@ class BypassViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Bypass.objects.count(), 1)
         self.assertEqual(Bypass.objects.first().utilizator, self.user)
+
+    def test_bypass_form_rejects_mismatched_driver_company(self):
+        other_transportator = Transportatori.objects.create(nume="OtherTrans")
+        self.client.login(username="operator", password="test-pass-123")
+        response = self.client.post(
+            reverse("bypass"),
+            {
+                "motiv": self.motiv.pk,
+                "sofer": self.sofer.pk,
+                "transportator": other_transportator.pk,
+                "cisterna": self.cisterna.pk,
+                "tip": self.tip.pk,
+                "tip_statie": self.tip_statie.pk,
+                "observatii": "Invalid relation",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "The selected driver does not belong to the selected transport company.",
+        )
+        self.assertEqual(Bypass.objects.count(), 0)
+
+    def test_bypass_list_supports_search(self):
+        Bypass.objects.create(
+            motiv=self.motiv,
+            sofer=self.sofer,
+            transportator=self.transportator,
+            cisterna=self.cisterna,
+            tip=self.tip,
+            tip_statie=self.tip_statie,
+            utilizator=self.user,
+            observatii="Night shift handover",
+        )
+        self.client.login(username="operator", password="test-pass-123")
+        response = self.client.get(reverse("bypass_list"), {"q": "Night"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Night shift handover")
+
+    def test_bypass_export_returns_csv(self):
+        Bypass.objects.create(
+            motiv=self.motiv,
+            sofer=self.sofer,
+            transportator=self.transportator,
+            cisterna=self.cisterna,
+            tip=self.tip,
+            tip_statie=self.tip_statie,
+            utilizator=self.user,
+            observatii="Export me",
+        )
+        self.client.login(username="operator", password="test-pass-123")
+        response = self.client.get(reverse("bypass_export"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "text/csv")
+        self.assertContains(response, "Export me")

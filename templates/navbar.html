@@ -6,9 +6,10 @@
     <nav class="sidebar-nav">
         <a href="{% url 'dashboard' %}">Dashboard</a>
         <a href="{% url 'bypass' %}">New bypass</a>
+        <a href="{% url 'bypass_list' %}">Bypass records</a>
         <a href="{% url 'profile' %}">Profile</a>
-        <a href="{% url 'user_list' %}">Users</a>
         {% if user.is_staff %}
+            <a href="{% url 'user_list' %}">Users</a>
             <a href="{% url 'admin:index' %}">Admin</a>
         {% endif %}
     </nav>

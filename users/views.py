@@ -1,10 +1,13 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.shortcuts import redirect, render
+
 from .forms import CustomUserCreationForm
 from .models import CustomUser
 
@@ -32,10 +35,30 @@ def add_user(request):
 
     return render(request, "add_user.html", {"form": form})
 
+
 @login_required
+@user_passes_test(is_admin, login_url="/login/")
 def user_list(request):
+    query = request.GET.get("q", "").strip()
     users = CustomUser.objects.order_by("username")
-    return render(request, "user_list.html", {"users": users})
+
+    if query:
+        users = users.filter(
+            Q(username__icontains=query)
+            | Q(email__icontains=query)
+            | Q(phone_number__icontains=query)
+        )
+
+    paginator = Paginator(users, 12)
+    page_obj = paginator.get_page(request.GET.get("page"))
+    return render(
+        request,
+        "user_list.html",
+        {
+            "page_obj": page_obj,
+            "query": query,
+        },
+    )
 
 
 def login_view(request):
@@ -61,6 +84,7 @@ def custom_logout_view(request):
     auth_logout(request)
     return redirect("login")
 
+
 @login_required
 def profil_view(request, *args, **kwargs):
-    return render(request, "profil.html")
+    return render(request, "profil.html", {"is_admin": is_admin(request.user)})
