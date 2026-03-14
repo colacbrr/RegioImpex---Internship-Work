@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Users | Regio Support Desk{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Administration</p>
+            <h1>User accounts</h1>
+        </div>
+        <a href="{% url 'add_user' %}" class="button button-primary">Add operator</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Staff</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email|default:"-" }}</td>
+                        <td>{{ user.phone_number|default:"-" }}</td>
+                        <td>{% if user.is_staff %}Yes{% else %}No{% endif %}</td>
+                        <td>{% if user.is_active %}Yes{% else %}No{% endif %}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No users found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

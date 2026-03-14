@@ -1,0 +1,22 @@
+<header class="sidebar">
+    <div class="sidebar-brand">
+        <p class="eyebrow">Regio</p>
+        <h2>Support Desk</h2>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'bypass' %}">New bypass</a>
+        <a href="{% url 'profile' %}">Profile</a>
+        <a href="{% url 'user_list' %}">Users</a>
+        {% if user.is_staff %}
+            <a href="{% url 'admin:index' %}">Admin</a>
+        {% endif %}
+    </nav>
+    <div class="sidebar-footer">
+        <p>Signed in as <strong>{{ user.username }}</strong></p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="button button-secondary button-full">Logout</button>
+        </form>
+    </div>
+</header>

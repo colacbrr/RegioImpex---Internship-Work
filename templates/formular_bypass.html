@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}New Bypass Entry | Regio Support Desk{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Operations form</p>
+            <h1>Create bypass entry</h1>
+        </div>
+        <p class="panel-copy">Capture the essential information needed to document an operational bypass case.</p>
+    </div>
+
+    <form method="post" class="grid-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="field-group{% if field.name == 'observatii' %} field-group--full{% endif %}">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="field-error">{{ field.errors|striptags }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="field-group field-group--full form-actions">
+            <button type="submit" class="button button-primary">Save entry</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

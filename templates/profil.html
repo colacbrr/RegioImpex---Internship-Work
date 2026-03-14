@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | Regio Support Desk{% endblock %}
+
+{% block content %}
+<section class="panel panel-narrow">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Account</p>
+            <h1>User profile</h1>
+        </div>
+    </div>
+    <div class="detail-list">
+        <div>
+            <span>Username</span>
+            <strong>{{ request.user.username }}</strong>
+        </div>
+        <div>
+            <span>Email</span>
+            <strong>{{ request.user.email|default:"Not set" }}</strong>
+        </div>
+        <div>
+            <span>Phone</span>
+            <strong>{{ request.user.phone_number|default:"Not set" }}</strong>
+        </div>
+        <div>
+            <span>Staff access</span>
+            <strong>{% if request.user.is_staff %}Yes{% else %}No{% endif %}</strong>
+        </div>
+    </div>
+</section>
+{% endblock %}

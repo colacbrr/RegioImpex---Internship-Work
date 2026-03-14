@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Regio Support Desk{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <p class="eyebrow">Operations dashboard</p>
+    <h1>Regio Support Desk</h1>
+    <p class="hero-copy">
+        Manage bypass cases, review operator accounts, and keep the support
+        workflow accessible from a single internal dashboard.
+    </p>
+    <div class="hero-actions">
+        <a class="button button-primary" href="{% url 'bypass' %}">Create bypass entry</a>
+        <a class="button button-secondary" href="{% url 'user_list' %}">View users</a>
+    </div>
+</section>
+
+<section class="card-grid">
+    <article class="info-card">
+        <h2>Ticket workflow</h2>
+        <p>Create structured bypass entries with the relevant driver, transporter, tanker, and station details.</p>
+    </article>
+    <article class="info-card">
+        <h2>User administration</h2>
+        <p>Administrators can review active operators and create new accounts for team members.</p>
+    </article>
+    <article class="info-card">
+        <h2>Profile access</h2>
+        <p>Signed-in users can quickly check their account information from the profile page.</p>
+    </article>
+</section>
+{% endblock %}
