@@ -8,6 +8,8 @@ This public-ready version removes unrelated local files and reorganizes the
 project into a normal Django repository that is easier to understand, run, and
 extend.
 
+Portfolio case study: https://cristiancolacel.com/projects/regioimpex-internal-support-desk
+
 ## Features
 
 - authenticated dashboard for operators and administrators
